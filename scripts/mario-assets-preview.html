@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Проверка 60 картинок Mario</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 24px; background: #f5edda; color: #173b43; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    h1 { margin: 0 0 6px; }
+    p { margin: 0 0 22px; color: #66716f; }
+    main { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+    article { min-width: 0; border: 1px solid #d9cdb8; border-radius: 16px; padding: 10px; background: #fffdf6; text-align: center; }
+    .image { height: 135px; border-radius: 12px; display: grid; place-items: center; overflow: hidden; background: linear-gradient(135deg, #fff 25%, #f2eadb 25% 50%, #fff 50% 75%, #f2eadb 75%); background-size: 20px 20px; }
+    img { width: 100%; height: 100%; object-fit: contain; }
+    b { display: block; margin-top: 8px; font-size: 13px; }
+    small { display: block; margin-top: 3px; color: #78817f; font-size: 10px; }
+    @media (max-width: 900px) { main { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    @media (max-width: 600px) { main { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <h1>Библиотека Mario</h1>
+  <p id="summary">Загружаем список…</p>
+  <main id="grid"></main>
+  <script>
+    fetch('../assets/mario/manifest.json')
+      .then(response => response.json())
+      .then(manifest => {
+        document.querySelector('#summary').textContent = `${manifest.characters.length} персонажей · визуальная проверка первого этапа`;
+        document.querySelector('#grid').innerHTML = manifest.characters.map((character, index) => `
+          <article>
+            <div class="image"><img src="../assets/mario/${character.file}" alt="${character.display}"></div>
+            <b>${String(index + 1).padStart(2, '0')}. ${character.display}</b>
+            <small>${character.id}</small>
+          </article>
+        `).join('');
+      });
+  </script>
+</body>
+</html>

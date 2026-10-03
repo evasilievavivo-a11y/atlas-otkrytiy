@@ -1,0 +1,487 @@
+{
+  "schemaVersion": 1,
+  "characterCount": 60,
+  "assetBasePath": "assets/mario/",
+  "characters": [
+    {
+      "id": "mario",
+      "display": "Марио",
+      "file": "mario.png",
+      "sourcePage": "https://www.mariowiki.com/Mario",
+      "sourceImage": null,
+      "origin": "existing-project-asset"
+    },
+    {
+      "id": "luigi",
+      "display": "Луиджи",
+      "file": "luigi.png",
+      "sourcePage": "https://www.mariowiki.com/Luigi",
+      "sourceImage": null,
+      "origin": "existing-project-asset"
+    },
+    {
+      "id": "peach",
+      "display": "Принцесса Пич",
+      "file": "peach.png",
+      "sourcePage": "https://www.mariowiki.com/Princess_Peach",
+      "sourceImage": null,
+      "origin": "existing-project-asset"
+    },
+    {
+      "id": "daisy",
+      "display": "Принцесса Дейзи",
+      "file": "daisy.png",
+      "sourcePage": "https://www.mariowiki.com/Daisy",
+      "sourceImage": null,
+      "origin": "existing-project-asset"
+    },
+    {
+      "id": "rosalina",
+      "display": "Розалина",
+      "file": "rosalina.png",
+      "sourcePage": "https://www.mariowiki.com/Rosalina",
+      "sourceImage": null,
+      "origin": "existing-project-asset"
+    },
+    {
+      "id": "pauline",
+      "display": "Полина",
+      "file": "pauline.png",
+      "sourcePage": "https://www.mariowiki.com/Pauline",
+      "sourceImage": "https://mario.wiki.gallery/images/e/ea/MK8D_BCP_Pauline_artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "toad",
+      "display": "Тоад",
+      "file": "toad.png",
+      "sourcePage": "https://www.mariowiki.com/Toad",
+      "sourceImage": null,
+      "origin": "existing-project-asset"
+    },
+    {
+      "id": "toadette",
+      "display": "Тоадетта",
+      "file": "toadette.png",
+      "sourcePage": "https://www.mariowiki.com/Toadette",
+      "sourceImage": "https://mario.wiki.gallery/images/7/7d/SMBW_Toadette.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "captain-toad",
+      "display": "Капитан Тоад",
+      "file": "captain-toad.png",
+      "sourcePage": "https://www.mariowiki.com/Captain_Toad",
+      "sourceImage": "https://mario.wiki.gallery/images/c/cb/Img-adventures-captain-toad.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "yoshi",
+      "display": "Йоши",
+      "file": "yoshi.png",
+      "sourcePage": "https://www.mariowiki.com/Yoshi",
+      "sourceImage": null,
+      "origin": "existing-project-asset"
+    },
+    {
+      "id": "birdo",
+      "display": "Бирдо",
+      "file": "birdo.png",
+      "sourcePage": "https://www.mariowiki.com/Birdo",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/e/ed/MP9_Birdo_Main_Artwork.png/640px-MP9_Birdo_Main_Artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "wario",
+      "display": "Варио",
+      "file": "wario.png",
+      "sourcePage": "https://www.mariowiki.com/Wario",
+      "sourceImage": null,
+      "origin": "existing-project-asset"
+    },
+    {
+      "id": "waluigi",
+      "display": "Валуиджи",
+      "file": "waluigi.png",
+      "sourcePage": "https://www.mariowiki.com/Waluigi",
+      "sourceImage": null,
+      "origin": "existing-project-asset"
+    },
+    {
+      "id": "donkey-kong",
+      "display": "Донки Конг",
+      "file": "donkey-kong.png",
+      "sourcePage": "https://www.mariowiki.com/Donkey_Kong",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/6/6e/DKB_Thinking_DK.png/640px-DKB_Thinking_DK.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "diddy-kong",
+      "display": "Дидди Конг",
+      "file": "diddy-kong.png",
+      "sourcePage": "https://www.mariowiki.com/Diddy_Kong",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/1/10/DKJC_Diddy_Kong_Updated_Artwork.png/640px-DKJC_Diddy_Kong_Updated_Artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "bowser",
+      "display": "Боузер",
+      "file": "bowser.png",
+      "sourcePage": "https://www.mariowiki.com/Bowser",
+      "sourceImage": null,
+      "origin": "existing-project-asset"
+    },
+    {
+      "id": "bowser-jr",
+      "display": "Боузер-младший",
+      "file": "bowser-jr.png",
+      "sourcePage": "https://www.mariowiki.com/Bowser_Jr.",
+      "sourceImage": "https://mario.wiki.gallery/images/f/f5/SMBW_Bowser_Jr_Artwork_1.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "kamek",
+      "display": "Камек",
+      "file": "kamek.png",
+      "sourcePage": "https://www.mariowiki.com/Kamek",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/3/3c/SMPJ_Kamek_Artwork.png/640px-SMPJ_Kamek_Artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "nabbit",
+      "display": "Наббит",
+      "file": "nabbit.png",
+      "sourcePage": "https://www.mariowiki.com/Nabbit",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/9/94/SMBW_Nabbit.png/640px-SMBW_Nabbit.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "cappy",
+      "display": "Кэппи",
+      "file": "cappy.png",
+      "sourcePage": "https://www.mariowiki.com/Cappy",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/c/c4/SMO_Art_-_E3_Char4.png/640px-SMO_Art_-_E3_Char4.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "baby-mario",
+      "display": "Малыш Марио",
+      "file": "baby-mario.png",
+      "sourcePage": "https://www.mariowiki.com/Baby_Mario",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/5/58/BabyMarioSluggers.png/640px-BabyMarioSluggers.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "baby-luigi",
+      "display": "Малыш Луиджи",
+      "file": "baby-luigi.png",
+      "sourcePage": "https://www.mariowiki.com/Baby_Luigi",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/d/d7/Baby_Luigi_MSS_artwork.png/640px-Baby_Luigi_MSS_artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "baby-peach",
+      "display": "Малышка Пич",
+      "file": "baby-peach.png",
+      "sourcePage": "https://www.mariowiki.com/Baby_Peach",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/2/20/Babypeachsimple.png/640px-Babypeachsimple.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "baby-daisy",
+      "display": "Малышка Дейзи",
+      "file": "baby-daisy.png",
+      "sourcePage": "https://www.mariowiki.com/Baby_Daisy",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/6/65/Babydaisysimple.png/640px-Babydaisysimple.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "baby-rosalina",
+      "display": "Малышка Розалина",
+      "file": "baby-rosalina.png",
+      "sourcePage": "https://www.mariowiki.com/Baby_Rosalina",
+      "sourceImage": "https://mario.wiki.gallery/images/3/33/MKT_Artwork_BabyRosalina.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "koopa-troopa",
+      "display": "Купа Трупа",
+      "file": "koopa-troopa.png",
+      "sourcePage": "https://www.mariowiki.com/Koopa_Troopa",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/5/5c/SuperMarioParty_KoopaTroopa.png/640px-SuperMarioParty_KoopaTroopa.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "dry-bones",
+      "display": "Драй Боунс",
+      "file": "dry-bones.png",
+      "sourcePage": "https://www.mariowiki.com/Dry_Bones",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/3/33/MPSR_Dry_Bones.png/640px-MPSR_Dry_Bones.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "shy-guy",
+      "display": "Шай Гай",
+      "file": "shy-guy.png",
+      "sourcePage": "https://www.mariowiki.com/Shy_Guy",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/b/b2/MPS_Shy_Guy_Artwork.png/640px-MPS_Shy_Guy_Artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "goomba",
+      "display": "Гумба",
+      "file": "goomba.png",
+      "sourcePage": "https://www.mariowiki.com/Goomba",
+      "sourceImage": "https://mario.wiki.gallery/images/7/7d/SMBW_Goomba.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "lakitu",
+      "display": "Лакиту",
+      "file": "lakitu.png",
+      "sourcePage": "https://www.mariowiki.com/Lakitu",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/8/87/NSMBU_Lakitu_Artwork.png/640px-NSMBU_Lakitu_Artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "king-boo",
+      "display": "Король Бу",
+      "file": "king-boo.png",
+      "sourcePage": "https://www.mariowiki.com/King_Boo",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/4/47/Mario_Party_Star_Rush_King_Boo.png/640px-Mario_Party_Star_Rush_King_Boo.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "hammer-bro",
+      "display": "Хаммер Бро",
+      "file": "hammer-bro.png",
+      "sourcePage": "https://www.mariowiki.com/Hammer_Bro",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/e/e3/NSMBU_Hammer_Bro_Artwork.png/640px-NSMBU_Hammer_Bro_Artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "monty-mole",
+      "display": "Монти Моул",
+      "file": "monty-mole.png",
+      "sourcePage": "https://www.mariowiki.com/Monty_Mole",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/5/56/Monty_Mole_SMP.png/640px-Monty_Mole_SMP.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "wiggler",
+      "display": "Вигглер",
+      "file": "wiggler.png",
+      "sourcePage": "https://www.mariowiki.com/Wiggler",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/7/7c/WigglerDS.png/640px-WigglerDS.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "spike",
+      "display": "Спайк",
+      "file": "spike.png",
+      "sourcePage": "https://www.mariowiki.com/Spike",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/2/20/Spike_-_Mario_Party_10.png/640px-Spike_-_Mario_Party_10.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "piranha-plant",
+      "display": "Растение-пиранья",
+      "file": "piranha-plant.png",
+      "sourcePage": "https://www.mariowiki.com/Piranha_Plant",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/e/e8/NSMBU_Piranha_Plant_Cropped.png/640px-NSMBU_Piranha_Plant_Cropped.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "pokey",
+      "display": "Поки",
+      "file": "pokey.png",
+      "sourcePage": "https://www.mariowiki.com/Pokey",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/e/e6/NSMBU_Pokey_Artwork.png/640px-NSMBU_Pokey_Artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "cheep-cheep",
+      "display": "Чип-Чип",
+      "file": "cheep-cheep.png",
+      "sourcePage": "https://www.mariowiki.com/Cheep_Cheep",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/6/63/CheepCheepNSMBU.png/640px-CheepCheepNSMBU.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "cataquack",
+      "display": "Катаквак",
+      "file": "cataquack.png",
+      "sourcePage": "https://www.mariowiki.com/Cataquack",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/1/13/Cataquack_SMS.png/640px-Cataquack_SMS.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "pianta",
+      "display": "Пианта",
+      "file": "pianta.png",
+      "sourcePage": "https://www.mariowiki.com/Pianta",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/7/71/MSS_Pianta_Artwork.png/640px-MSS_Pianta_Artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "larry",
+      "display": "Ларри",
+      "file": "larry.png",
+      "sourcePage": "https://www.mariowiki.com/Larry",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/1/18/NSMBU_Larry_Koopa_Artwork.png/640px-NSMBU_Larry_Koopa_Artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "morton",
+      "display": "Мортон",
+      "file": "morton.png",
+      "sourcePage": "https://www.mariowiki.com/Morton",
+      "sourceImage": "https://mario.wiki.gallery/images/e/eb/MKT_Artwork_Morton.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "wendy",
+      "display": "Венди",
+      "file": "wendy.png",
+      "sourcePage": "https://www.mariowiki.com/Wendy",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/9/95/NSMBW_Wendy_Artwork.png/640px-NSMBW_Wendy_Artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "iggy",
+      "display": "Игги",
+      "file": "iggy.png",
+      "sourcePage": "https://www.mariowiki.com/Iggy",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/c/c0/NSMBU_Iggy_Artwork.png/640px-NSMBU_Iggy_Artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "roy",
+      "display": "Рой",
+      "file": "roy.png",
+      "sourcePage": "https://www.mariowiki.com/Roy",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/6/67/NSMBW_Roy_Artwork.png/640px-NSMBW_Roy_Artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "lemmy",
+      "display": "Лемми",
+      "file": "lemmy.png",
+      "sourcePage": "https://www.mariowiki.com/Lemmy",
+      "sourceImage": "https://mario.wiki.gallery/images/8/84/NSMBW_Lemmy_Artwork.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "ludwig",
+      "display": "Людвиг",
+      "file": "ludwig.png",
+      "sourcePage": "https://www.mariowiki.com/Ludwig",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/8/8e/LudwigNSMBU.png/640px-LudwigNSMBU.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "boom-boom",
+      "display": "Бум-Бум",
+      "file": "boom-boom.png",
+      "sourcePage": "https://www.mariowiki.com/Boom_Boom",
+      "sourceImage": "https://mario.wiki.gallery/images/f/f0/Boom_Boom_SMR.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "pom-pom",
+      "display": "Пом-Пом",
+      "file": "pom-pom.png",
+      "sourcePage": "https://www.mariowiki.com/Pom_Pom",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/9/96/SMP_Pom_Pom.png/640px-SMP_Pom_Pom.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "king-bob-omb",
+      "display": "Король Боб-омб",
+      "file": "king-bob-omb.png",
+      "sourcePage": "https://www.mariowiki.com/King_Bob-omb",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/f/f1/SMP_-_King_Bob-omb.png/640px-SMP_-_King_Bob-omb.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "petey-piranha",
+      "display": "Пити Пиранья",
+      "file": "petey-piranha.png",
+      "sourcePage": "https://www.mariowiki.com/Petey_Piranha",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/2/22/MPSR_Petey_Piranha.png/640px-MPSR_Petey_Piranha.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "gooper-blooper",
+      "display": "Гупер Блупер",
+      "file": "gooper-blooper.png",
+      "sourcePage": "https://www.mariowiki.com/Gooper_Blooper",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/2/21/Gooper_Blooper_SMS.png/640px-Gooper_Blooper_SMS.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "wingo",
+      "display": "Винго",
+      "file": "wingo.png",
+      "sourcePage": "https://www.mariowiki.com/Wingo",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/b/b4/Wingo_CTTT.png/640px-Wingo_CTTT.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "madame-broode",
+      "display": "Мадам Бруд",
+      "file": "madame-broode.png",
+      "sourcePage": "https://www.mariowiki.com/Madame_Broode",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/3/34/Madame_Broode_Artwork_SMO.jpg/640px-Madame_Broode_Artwork_SMO.jpg",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "topper",
+      "display": "Топпер",
+      "file": "topper.png",
+      "sourcePage": "https://www.mariowiki.com/Topper",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/4/41/Topper-SMO.jpg/640px-Topper-SMO.jpg",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "hariet",
+      "display": "Хариет",
+      "file": "hariet.png",
+      "sourcePage": "https://www.mariowiki.com/Hariet",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/6/67/SMO-HarietArtwork.jpeg/640px-SMO-HarietArtwork.jpeg",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "rango",
+      "display": "Ранго",
+      "file": "rango.png",
+      "sourcePage": "https://www.mariowiki.com/Rango",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/0/07/SMO_Rango.jpg/640px-SMO_Rango.jpg",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "spewart",
+      "display": "Спьюарт",
+      "file": "spewart.png",
+      "sourcePage": "https://www.mariowiki.com/Spewart",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/8/89/SMO_Art_-_Spewart.jpg/640px-SMO_Art_-_Spewart.jpg",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "king-kaliente",
+      "display": "Король Калиенте",
+      "file": "king-kaliente.png",
+      "sourcePage": "https://www.mariowiki.com/King_Kaliente",
+      "sourceImage": "https://mario.wiki.gallery/images/b/ba/KingKalienteProfile.png",
+      "origin": "Super Mario Wiki page image"
+    },
+    {
+      "id": "ruined-dragon",
+      "display": "Дракон Руин",
+      "file": "ruined-dragon.png",
+      "sourcePage": "https://www.mariowiki.com/Ruined_Dragon",
+      "sourceImage": "https://mario.wiki.gallery/images/thumb/1/11/Ruined_Dragon_Artwork_SMO.jpg/640px-Ruined_Dragon_Artwork_SMO.jpg",
+      "origin": "Super Mario Wiki page image"
+    }
+  ]
+}
