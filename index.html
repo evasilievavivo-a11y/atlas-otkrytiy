@@ -206,7 +206,11 @@ dialog p { color: var(--muted); font-size: 12px; line-height: 1.6; }
 .collection-head { display:flex; justify-content:space-between; align-items:center; gap:15px; margin-bottom:16px; }
 .collection-head h2 { margin:5px 0 0; font:700 23px/1.1 Georgia,serif; }
 .add-round-button { flex:none; border:1px solid rgba(189,76,54,.22); border-radius:11px; padding:9px 11px; color:#9a3d2b; background:#fff6ee; font-size:9px; font-weight:850; cursor:pointer; }
-.mario-collection { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; max-height:590px; padding-right:4px; overflow-y:auto; }
+.mario-collection { display:block; max-height:590px; padding-right:4px; overflow-y:auto; }
+.mario-collection-section + .mario-collection-section { margin-top:18px; }
+.mario-collection-title { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:0 0 8px; color:#4d5d59; font-size:10px; font-weight:900; }
+.mario-collection-title span { color:#9aa39f; font-size:8px; font-weight:750; }
+.mario-section-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; }
 .mario-tile { position:relative; min-width:0; min-height:66px; display:grid; grid-template-columns:29px 1fr; grid-template-rows:1fr auto; align-items:center; column-gap:6px; border:1px solid var(--line); border-radius:11px; padding:8px; color:#a5aeab; background:#f1f2ed; }
 .mario-tile.current { border-color:#bd4c36; box-shadow:0 0 0 2px rgba(189,76,54,.12); }
 .mario-tile.discovered { color:var(--ink); background:white; }
@@ -253,6 +257,8 @@ dialog p { color: var(--muted); font-size: 12px; line-height: 1.6; }
 .mario-avatar[data-color="gray"], .mario-avatar[data-color="black"] { background:linear-gradient(145deg,#787f7f,#353c3d); }
 .mario-avatar[data-color="white"] { color:#4f5d59; background:linear-gradient(145deg,#fff,#d8dfdc); }
 .mario-reveal > small { display:block; margin-top:-5px; color:var(--muted); font-size:9px; }
+.character-badges { display:flex; justify-content:center; flex-wrap:wrap; gap:5px; margin:10px 0 0; }
+.character-badges span { padding:5px 8px; border-radius:999px; color:#53635f; background:#edf1eb; font-size:8px; font-weight:800; }
 .mario-fact { margin:22px 0 15px; padding:15px; border-radius:14px; color:#69491b; background:#fff4d9; text-align:left; }
 .mario-fact span { font-size:8px; font-weight:850; letter-spacing:.11em; text-transform:uppercase; }
 .mario-fact p { margin:7px 0 0; font:700 14px/1.4 Georgia,serif; }
@@ -309,7 +315,7 @@ dialog p { color: var(--muted); font-size: 12px; line-height: 1.6; }
   .mario-stage, .mario-board { min-height:590px; }
   .mario-stage { padding:24px; }
   .mario-board { padding:17px; }
-  .mario-collection { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .mario-section-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
 }
 @media (max-width: 700px) {
   .game-layout { grid-template-columns: 1fr; max-width: 650px; margin: 0 auto; }
@@ -349,7 +355,7 @@ dialog p { color: var(--muted); font-size: 12px; line-height: 1.6; }
   .play-panel { min-height: 510px; padding: 22px; }
   .mario-lobby-copy h1 { font-size:49px; }
   .mario-collection-card { padding:16px; }
-  .mario-collection { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .mario-section-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .mario-stage { min-height:540px; padding:22px 17px; }
   .leva-editor > div { grid-template-columns:1fr; }
 }
@@ -757,6 +763,36 @@ const MAX_ERRORS = 5;
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const GAME = { language: 'ru', subject: 'world-and-earth', collection: 'countries', gameType: 'recall-all' };
 
+// Понятные ребёнку разделы коллекции. Старое техническое поле group
+// оставлено в данных только для совместимости со старыми сохранениями.
+const MARIO_COLLECTION_SECTIONS = [
+  { id: 'mario-team', icon: '⭐', name: 'Команда Марио', members: ['mario','luigi','peach','daisy','rosalina','pauline','yoshi','cappy'] },
+  { id: 'toad-travelers', icon: '🍄', name: 'Тоады и путешественники', members: ['toad','toadette','captain-toad','nabbit'] },
+  { id: 'rivals', icon: '🎭', name: 'Весёлые соперники', members: ['wario','waluigi','birdo'] },
+  { id: 'kongs', icon: '🍌', name: 'Семья Конгов', members: ['donkey-kong','diddy-kong'] },
+  { id: 'babies', icon: '🍼', name: 'Малыши', members: ['baby-mario','baby-luigi','baby-peach','baby-daisy','baby-rosalina'] },
+  { id: 'bowser-team', icon: '🐢', name: 'Команда Боузера', members: ['bowser','bowser-jr','kamek'] },
+  { id: 'koopalings', icon: '🎨', name: 'Купалинги', members: ['larry','morton','wendy','iggy','roy','lemmy','ludwig'] },
+  { id: 'level-residents', icon: '🧩', name: 'Обитатели уровней', members: ['koopa-troopa','dry-bones','shy-guy','goomba','lakitu','king-boo','hammer-bro','monty-mole','wiggler','spike','piranha-plant','pokey','cheep-cheep','cataquack','pianta'] },
+  { id: 'big-bosses', icon: '👑', name: 'Большие боссы', members: ['boom-boom','pom-pom','king-bob-omb','petey-piranha','gooper-blooper','wingo','madame-broode','topper','hariet','rango','spewart','king-kaliente','ruined-dragon'] },
+];
+
+// Это не строгие «места жительства», а знакомые миры и виды приключений.
+// У одного персонажа может быть несколько таких значков.
+const MARIO_ADVENTURE_BADGES = [
+  { icon: '🏰', name: 'Королевства', members: ['mario','luigi','peach','daisy','pauline','toad','toadette','captain-toad','baby-mario','baby-luigi','baby-peach','baby-daisy','king-bob-omb'] },
+  { icon: '🌌', name: 'Космос', members: ['rosalina','baby-rosalina','king-kaliente'] },
+  { icon: '🌴', name: 'Острова и джунгли', members: ['yoshi','birdo','donkey-kong','diddy-kong','cataquack','pianta','petey-piranha'] },
+  { icon: '👻', name: 'Привидения', members: ['luigi','dry-bones','king-boo'] },
+  { icon: '🌊', name: 'Водный мир', members: ['cheep-cheep','cataquack','pianta','gooper-blooper'] },
+  { icon: '🏜️', name: 'Пустыни и пещеры', members: ['nabbit','monty-mole','spike','pokey','wingo'] },
+  { icon: '🌋', name: 'Замок Боузера', members: ['bowser','bowser-jr','kamek','koopa-troopa','dry-bones','goomba','hammer-bro','larry','morton','wendy','iggy','roy','lemmy','ludwig','boom-boom','pom-pom'] },
+  { icon: '🌍', name: 'Далёкие королевства', members: ['cappy','pauline','wingo','madame-broode','topper','hariet','rango','spewart','ruined-dragon'] },
+  { icon: '🌿', name: 'Зелёные уровни', members: ['yoshi','wiggler','piranha-plant','petey-piranha'] },
+  { icon: '🏎️', name: 'Гонки', members: ['mario','luigi','peach','daisy','rosalina','toad','toadette','yoshi','birdo','wario','waluigi','donkey-kong','diddy-kong','bowser','bowser-jr','baby-mario','baby-luigi','baby-peach','baby-daisy','baby-rosalina','koopa-troopa','dry-bones','shy-guy','goomba','lakitu','king-boo','hammer-bro','monty-mole','wiggler','spike','piranha-plant','pokey','cheep-cheep','cataquack','pianta'] },
+  { icon: '👑', name: 'Большие битвы', members: ['bowser','bowser-jr','larry','morton','wendy','iggy','roy','lemmy','ludwig','boom-boom','pom-pom','king-bob-omb','petey-piranha','gooper-blooper','wingo','madame-broode','topper','hariet','rango','spewart','king-kaliente','ruined-dragon'] },
+];
+
 const MAP_VIEWS = {
   africa: { lon: [-25, 60], lat: [-40, 40] },
   europe: { lon: [-25, 65], lat: [30, 75] },
@@ -874,6 +910,24 @@ function storedRound() {
 function continent(id) { return data.continents.find(item => item.id === id); }
 function regionEntities(id) { return data.entities.filter(item => item.continent === id); }
 
+function applyMarioCollectionMetadata() {
+  const sectionByCharacter = new Map();
+  for (const section of MARIO_COLLECTION_SECTIONS) {
+    for (const id of section.members) sectionByCharacter.set(id, section);
+  }
+  for (const character of marioData.characters) {
+    character.collectionSection = sectionByCharacter.get(character.id);
+    character.adventureBadges = MARIO_ADVENTURE_BADGES
+      .filter(badge => badge.members.includes(character.id))
+      .map(({ icon, name }) => ({ icon, name }));
+  }
+}
+
+function marioBadgesMarkup(character) {
+  return `<div class="character-badges">${character.adventureBadges
+    .map(badge => `<span>${esc(badge.icon)} ${esc(badge.name)}</span>`).join('')}</div>`;
+}
+
 function buildIndexes() {
   entityById = new Map(data.entities.map(entity => [entity.id, entity]));
   aliases = new Map();
@@ -881,6 +935,7 @@ function buildIndexes() {
     const values = [entity.names.ru, ...(entity.aliases.ru || [])];
     for (const value of values) aliases.set(normalize(value), entity);
   }
+  applyMarioCollectionMetadata();
   marioById = new Map(marioData.characters.map(character => [character.id, character]));
   marioAliases = new Map();
   for (const character of marioData.characters) {
@@ -998,16 +1053,24 @@ function shuffled(values) {
 }
 
 function marioCollection(profile, currentId = null) {
-  return `<div class="mario-collection" aria-label="Коллекция персонажей">${marioData.characters.map((character, index) => {
-    const discovered = profile.discovered.includes(character.id);
-    const rating = profile.ratings[character.id];
-    return `<div class="mario-tile ${discovered ? 'discovered' : ''} ${currentId === character.id ? 'current' : ''}" title="${discovered ? esc(character.display) : `Тайна ${index + 1}`}" data-color="${esc(character.color)}">
-      <span class="mario-tile-number">${String(index + 1).padStart(2, '0')}</span>
-      <b>${discovered ? esc(character.symbol) : '?'}</b>
-      <small>${discovered ? esc(character.display) : 'Не открыт'}</small>
-      ${rating === 'like' ? '<i>♥</i>' : rating === 'dislike' ? '<i class="dislike">×</i>' : ''}
-    </div>`;
-  }).join('')}</div>`;
+  let number = 0;
+  const sections = MARIO_COLLECTION_SECTIONS.map(section => {
+    const characters = section.members.map(id => marioById.get(id)).filter(Boolean);
+    const opened = characters.filter(character => profile.discovered.includes(character.id)).length;
+    const tiles = characters.map(character => {
+      number += 1;
+      const discovered = profile.discovered.includes(character.id);
+      const rating = profile.ratings[character.id];
+      return `<div class="mario-tile ${discovered ? 'discovered' : ''} ${currentId === character.id ? 'current' : ''}" title="${discovered ? esc(character.display) : `Тайна ${number}`}" data-color="${esc(character.color)}">
+        <span class="mario-tile-number">${String(number).padStart(2, '0')}</span>
+        <b>${discovered ? esc(character.symbol) : '?'}</b>
+        <small>${discovered ? esc(character.display) : 'Не открыт'}</small>
+        ${rating === 'like' ? '<i>♥</i>' : rating === 'dislike' ? '<i class="dislike">×</i>' : ''}
+      </div>`;
+    }).join('');
+    return `<section class="mario-collection-section"><h3 class="mario-collection-title">${esc(section.icon)} ${esc(section.name)}<span>${opened}/${characters.length}</span></h3><div class="mario-section-grid">${tiles}</div></section>`;
+  }).join('');
+  return `<div class="mario-collection" aria-label="Коллекция персонажей по понятным разделам">${sections}</div>`;
 }
 
 function editorDialogMarkup(profile) {
@@ -1102,7 +1165,7 @@ function marioFinishPanel(profile) {
 function marioRevealCard(character, profile) {
   const rating = profile.ratings[character.id];
   const won = marioRound.guessed.includes(character.id);
-  return `<div class="mario-reveal"><div class="mario-avatar" data-color="${esc(character.color)}"><span>${esc(character.symbol)}</span></div><span class="eyebrow">${won ? 'Угадано!' : 'Открываем ответ'}</span><h2>${esc(character.display)}</h2><small>${esc(character.name)} · ${esc(character.group)}</small><div class="mario-fact"><span>✦ Короткое открытие</span><p>${esc(character.fact)}</p></div><div class="leva-editor"><p>Что скажет главный редактор?</p><div><button class="editor-vote ${rating === 'like' ? 'selected' : ''}" data-rate="like" type="button">♥ Нравится</button><button class="editor-vote ${rating === 'dislike' ? 'selected dislike' : ''}" data-rate="dislike" type="button">× Не нравится</button><button class="editor-vote add" data-add-character type="button">＋ Добавить</button></div></div><button class="primary-button mario-next" id="mario-next" type="button">${marioRound.index + 1 === marioRound.deck.length ? 'Подвести итог' : 'Следующая загадка'}</button></div>`;
+  return `<div class="mario-reveal"><div class="mario-avatar" data-color="${esc(character.color)}"><span>${esc(character.symbol)}</span></div><span class="eyebrow">${won ? 'Угадано!' : 'Открываем ответ'}</span><h2>${esc(character.display)}</h2><small>${esc(character.name)} · ${esc(character.collectionSection.icon)} ${esc(character.collectionSection.name)}</small>${marioBadgesMarkup(character)}<div class="mario-fact"><span>✦ Короткое открытие</span><p>${esc(character.fact)}</p></div><div class="leva-editor"><p>Что скажет главный редактор?</p><div><button class="editor-vote ${rating === 'like' ? 'selected' : ''}" data-rate="like" type="button">♥ Нравится</button><button class="editor-vote ${rating === 'dislike' ? 'selected dislike' : ''}" data-rate="dislike" type="button">× Не нравится</button><button class="editor-vote add" data-add-character type="button">＋ Добавить</button></div></div><button class="primary-button mario-next" id="mario-next" type="button">${marioRound.index + 1 === marioRound.deck.length ? 'Подвести итог' : 'Следующая загадка'}</button></div>`;
 }
 
 function renderMarioGame() {
@@ -1114,7 +1177,7 @@ function renderMarioGame() {
   const finished = marioRound.status === 'finished';
   const character = finished ? null : currentMarioCharacter();
   const visibleHints = !finished ? character.hints.slice(0, marioRound.hintCount) : [];
-  const challenge = !finished && marioRound.phase === 'clue' ? `<div class="mario-clue-card"><div class="mystery-badge" data-color="${esc(character.color)}"><span>?</span><small>${esc(character.group)}</small></div><span class="eyebrow">Загадка ${marioRound.index + 1} из ${marioRound.deck.length}</span><h2>Кто это?</h2><ol class="hint-list">${visibleHints.map((hint, index) => `<li><b>${index + 1}</b><span>${esc(hint)}</span></li>`).join('')}</ol><form class="answer-form mario-answer" id="mario-answer-form"><input name="answer" maxlength="70" autocomplete="off" placeholder="Имя персонажа" aria-label="Имя персонажа" required autofocus><button class="primary-button" type="submit">Проверить ответ</button></form><div class="answer-message ${esc(marioRound.messageType)}">${esc(marioRound.message)}</div><div class="mario-clue-actions">${marioRound.hintCount < character.hints.length ? `<button class="secondary-button" id="more-hint" type="button">Ещё подсказка · будет ${3 - marioRound.hintCount} мон.</button>` : ''}<button class="quiet-button" id="skip-mario" type="button">Не знаю — открыть ответ</button></div></div>` : '';
+  const challenge = !finished && marioRound.phase === 'clue' ? `<div class="mario-clue-card"><div class="mystery-badge" data-color="${esc(character.color)}"><span>?</span><small>Тайна из коллекции</small></div><span class="eyebrow">Загадка ${marioRound.index + 1} из ${marioRound.deck.length}</span><h2>Кто это?</h2><ol class="hint-list">${visibleHints.map((hint, index) => `<li><b>${index + 1}</b><span>${esc(hint)}</span></li>`).join('')}</ol><form class="answer-form mario-answer" id="mario-answer-form"><input name="answer" maxlength="70" autocomplete="off" placeholder="Имя персонажа" aria-label="Имя персонажа" required autofocus><button class="primary-button" type="submit">Проверить ответ</button></form><div class="answer-message ${esc(marioRound.messageType)}">${esc(marioRound.message)}</div><div class="mario-clue-actions">${marioRound.hintCount < character.hints.length ? `<button class="secondary-button" id="more-hint" type="button">Ещё подсказка · будет ${3 - marioRound.hintCount} мон.</button>` : ''}<button class="quiet-button" id="skip-mario" type="button">Не знаю — открыть ответ</button></div></div>` : '';
   const mainContent = finished ? marioFinishPanel(profile) : marioRound.phase === 'reveal' ? marioRevealCard(character, profile) : challenge;
   app.innerHTML = `<section class="game-shell mario-game"><div class="game-topbar"><div class="game-title"><button class="back-button" id="mario-back" type="button" aria-label="К выбору режима">←</button><span class="game-title-emoji">🍄</span><div><h1>Тайна мира Mario</h1><p>15 загадок · одна команда</p></div></div><div class="game-counters"><div class="counter"><span>Загадка</span><strong>${finished ? marioRound.deck.length : marioRound.index + 1} / ${marioRound.deck.length}</strong></div><div class="counter coin-counter"><span>Монеты</span><strong>● ${marioRound.coins}</strong></div></div></div><div class="mario-layout"><article class="paper-card mario-stage">${mainContent}</article><aside class="paper-card mario-board"><div class="collection-head"><div><span class="eyebrow">Коллекция</span><h2>${profile.discovered.length} из 60</h2></div><button class="add-round-button" data-open-editor type="button">Выбор Лёвы</button></div>${marioCollection(profile, character?.id)}</aside></div></section>${editorDialogMarkup(profile)}`;
   document.querySelector('#mario-back').addEventListener('click', () => {
