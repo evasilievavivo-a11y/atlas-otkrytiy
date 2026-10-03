@@ -211,10 +211,13 @@ dialog p { color: var(--muted); font-size: 12px; line-height: 1.6; }
 .mario-collection-title { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:0 0 8px; color:#4d5d59; font-size:10px; font-weight:900; }
 .mario-collection-title span { color:#9aa39f; font-size:8px; font-weight:750; }
 .mario-section-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; }
-.mario-tile { position:relative; min-width:0; min-height:66px; display:grid; grid-template-columns:29px 1fr; grid-template-rows:1fr auto; align-items:center; column-gap:6px; border:1px solid var(--line); border-radius:11px; padding:8px; color:#a5aeab; background:#f1f2ed; }
+.mario-tile { position:relative; min-width:0; min-height:78px; display:grid; grid-template-columns:48px 1fr; grid-template-rows:1fr auto; align-items:center; column-gap:7px; border:1px solid var(--line); border-radius:11px; padding:8px; color:#a5aeab; background:#f1f2ed; }
 .mario-tile.current { border-color:#bd4c36; box-shadow:0 0 0 2px rgba(189,76,54,.12); }
 .mario-tile.discovered { color:var(--ink); background:white; }
-.mario-tile b { grid-row:1 / 3; display:grid; place-items:center; width:29px; height:36px; border-radius:9px; color:white; background:#94a29d; font-size:11px; }
+.mario-tile b, .mario-tile-picture { grid-row:1 / 3; display:grid; place-items:center; width:48px; height:58px; border-radius:9px; overflow:hidden; }
+.mario-tile b { color:white; background:#94a29d; font-size:17px; }
+.mario-tile-picture { background:#fff7e7; }
+.mario-tile-picture img { display:block; width:100%; height:100%; padding:3px; object-fit:contain; }
 .mario-tile.discovered[data-color="red"] b { background:#c14f3a; }
 .mario-tile.discovered[data-color="green"] b { background:#4b875d; }
 .mario-tile.discovered[data-color="pink"] b { background:#d67b9c; }
@@ -247,6 +250,8 @@ dialog p { color: var(--muted); font-size: 12px; line-height: 1.6; }
 .mario-answer { margin-top:14px; }
 .mario-clue-actions { display:grid; gap:3px; margin-top:4px; }
 .mario-avatar span { font:700 35px/1 Georgia,serif; }
+.mario-avatar.has-image { width:172px; height:182px; border:1px solid rgba(189,76,54,.16); background:linear-gradient(145deg,#fffdf8,#fff1db); box-shadow:0 18px 35px rgba(136,53,39,.13); overflow:hidden; }
+.mario-avatar.has-image img { display:block; width:100%; height:100%; padding:8px; object-fit:contain; }
 .mario-avatar[data-color="green"] { background:linear-gradient(145deg,#59a36f,#286c47); }
 .mario-avatar[data-color="pink"] { background:linear-gradient(145deg,#e494af,#b85178); }
 .mario-avatar[data-color="gold"], .mario-avatar[data-color="rainbow"] { background:linear-gradient(145deg,#edc05b,#bd7926); }
@@ -281,6 +286,8 @@ dialog p { color: var(--muted); font-size: 12px; line-height: 1.6; }
 .editor-list strong { display:block; margin-bottom:7px; color:#76554d; font-size:10px; text-transform:uppercase; letter-spacing:.07em; }
 .editor-list div { display:flex; flex-wrap:wrap; gap:6px; }
 .editor-list span { padding:6px 8px; border-radius:15px; background:#f3eee6; font-size:9px; }
+.editor-list .editor-character { display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 4px; }
+.editor-character img { width:28px; height:28px; border-radius:9px; background:#fff; object-fit:contain; }
 .editor-list em { color:var(--muted); font-size:10px; font-style:normal; }
 .editor-dialog .primary-button { width:100%; margin-top:12px; }
 .suggest-dialog form { display:grid; gap:9px; }
@@ -930,6 +937,11 @@ function marioBadgesMarkup(character) {
     .map(badge => `<span>${esc(badge.icon)} ${esc(badge.name)}</span>`).join('')}</div>`;
 }
 
+function marioPictureMarkup(character) {
+  if (!character.image) return `<span>${esc(character.symbol)}</span>`;
+  return `<img src="${esc(character.image)}" alt="${esc(character.display)}" onerror="marioImageFallback(this)">`;
+}
+
 function buildIndexes() {
   entityById = new Map(data.entities.map(entity => [entity.id, entity]));
   aliases = new Map();
@@ -1063,9 +1075,12 @@ function marioCollection(profile, currentId = null) {
       number += 1;
       const discovered = profile.discovered.includes(character.id);
       const rating = profile.ratings[character.id];
+      const portrait = discovered
+        ? `<span class="mario-tile-picture">${marioPictureMarkup(character)}</span>`
+        : '<b aria-hidden="true">?</b>';
       return `<div class="mario-tile ${discovered ? 'discovered' : ''} ${currentId === character.id ? 'current' : ''}" title="${discovered ? esc(character.display) : `Тайна ${number}`}" data-color="${esc(character.color)}">
         <span class="mario-tile-number">${String(number).padStart(2, '0')}</span>
-        <b>${discovered ? esc(character.symbol) : '?'}</b>
+        ${portrait}
         <small>${discovered ? esc(character.display) : 'Не открыт'}</small>
         ${rating === 'like' ? '<i>♥</i>' : rating === 'dislike' ? '<i class="dislike">×</i>' : ''}
       </div>`;
@@ -1078,7 +1093,7 @@ function marioCollection(profile, currentId = null) {
 function editorDialogMarkup(profile) {
   const liked = Object.entries(profile.ratings).filter(([, value]) => value === 'like').map(([id]) => marioById.get(id)).filter(Boolean);
   const disliked = Object.entries(profile.ratings).filter(([, value]) => value === 'dislike').map(([id]) => marioById.get(id)).filter(Boolean);
-  const names = list => list.length ? list.map(item => `<span>${esc(item.display)}</span>`).join('') : '<em>Пока пусто</em>';
+  const names = list => list.length ? list.map(item => `<span class="editor-character">${marioPictureMarkup(item)}${esc(item.display)}</span>`).join('') : '<em>Пока пусто</em>';
   const suggestions = profile.suggestions.length ? profile.suggestions.map(item => `<span>${esc(item)}</span>`).join('') : '<em>Пока никто не предложен</em>';
   return `<dialog id="editor-dialog" class="editor-dialog">
     <span class="eyebrow">Лёва — главный редактор</span><h2>Выбор Лёвы</h2>
@@ -1167,7 +1182,7 @@ function marioFinishPanel(profile) {
 function marioRevealCard(character, profile) {
   const rating = profile.ratings[character.id];
   const won = marioRound.guessed.includes(character.id);
-  return `<div class="mario-reveal"><div class="mario-avatar" data-color="${esc(character.color)}"><span>${esc(character.symbol)}</span></div><span class="eyebrow">${won ? 'Угадано!' : 'Открываем ответ'}</span><h2>${esc(character.display)}</h2><small>${esc(character.name)} · ${esc(character.collectionSection.icon)} ${esc(character.collectionSection.name)}</small>${marioBadgesMarkup(character)}<div class="mario-fact"><span>✦ Короткое открытие</span><p>${esc(character.fact)}</p></div><div class="leva-editor"><p>Что скажет главный редактор?</p><div><button class="editor-vote ${rating === 'like' ? 'selected' : ''}" data-rate="like" type="button">♥ Нравится</button><button class="editor-vote ${rating === 'dislike' ? 'selected dislike' : ''}" data-rate="dislike" type="button">× Не нравится</button><button class="editor-vote add" data-add-character type="button">＋ Добавить</button></div></div><button class="primary-button mario-next" id="mario-next" type="button">${marioRound.index + 1 === marioRound.deck.length ? 'Подвести итог' : 'Следующая загадка'}</button></div>`;
+  return `<div class="mario-reveal"><div class="mario-avatar ${character.image ? 'has-image' : ''}" data-color="${esc(character.color)}">${marioPictureMarkup(character)}</div><span class="eyebrow">${won ? 'Угадано!' : 'Открываем ответ'}</span><h2>${esc(character.display)}</h2><small>${esc(character.name)} · ${esc(character.collectionSection.icon)} ${esc(character.collectionSection.name)}</small>${marioBadgesMarkup(character)}<div class="mario-fact"><span>✦ Короткое открытие</span><p>${esc(character.fact)}</p></div><div class="leva-editor"><p>Что скажет главный редактор?</p><div><button class="editor-vote ${rating === 'like' ? 'selected' : ''}" data-rate="like" type="button">♥ Нравится</button><button class="editor-vote ${rating === 'dislike' ? 'selected dislike' : ''}" data-rate="dislike" type="button">× Не нравится</button><button class="editor-vote add" data-add-character type="button">＋ Добавить</button></div></div><button class="primary-button mario-next" id="mario-next" type="button">${marioRound.index + 1 === marioRound.deck.length ? 'Подвести итог' : 'Следующая загадка'}</button></div>`;
 }
 
 function renderMarioGame() {

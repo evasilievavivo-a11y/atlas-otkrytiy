@@ -95,6 +95,9 @@ end
 end
 
 errors << 'index.html: Mario character image paths are not assigned' unless game_source.include?('character.image = marioImageFor(character.id);')
+errors << 'index.html: revealed Mario cards do not render character images' unless game_source.include?('mario-avatar ${character.image ? \'has-image\' : \'\'}')
+errors << 'index.html: opened collection cards do not render character images' unless game_source.include?('class="mario-tile-picture"')
+errors << 'index.html: Leva editor does not render character images' unless game_source.include?('class="editor-character"')
 
 big_star_source = File.read(File.join(ROOT, 'big-star-preview.html'))
 errors << 'big-star-preview.html: shared image lookup is not used' unless big_star_source.include?('function imageFor(id){return marioImageFor(id)}')
