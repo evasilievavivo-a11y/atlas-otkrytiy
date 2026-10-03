@@ -1,3 +1,4 @@
+# Publishes the stable site at the root and the development preview separately.
 name: Publish stable site and development preview
 
 on:
