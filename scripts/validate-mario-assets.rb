@@ -7,6 +7,7 @@ require 'open3'
 ROOT = File.expand_path('..', __dir__)
 ASSET_DIR = File.join(ROOT, 'assets', 'mario')
 MANIFEST_PATH = File.join(ASSET_DIR, 'manifest.json')
+LIBRARY_PATH = File.join(ASSET_DIR, 'library.js')
 
 EXPECTED_IDS = %w[
   mario luigi peach daisy rosalina pauline toad toadette captain-toad yoshi
@@ -73,6 +74,31 @@ end
 
 png_files = Dir.glob(File.join(ASSET_DIR, '*.png')).map { |path| File.basename(path, '.png') }
 errors << "Unlisted PNG files: #{(png_files - ids).join(', ')}" unless (png_files - ids).empty?
+
+if File.file?(LIBRARY_PATH)
+  library_source = File.read(LIBRARY_PATH)
+  library_ids = library_source.scan(/^\s+"([^"]+)": "assets\/mario\/[^"]+",?$/).flatten
+  errors << "Image library ids differ from manifest" unless library_ids == ids
+  ids.each do |id|
+    expected_path = "\"#{id}\": \"assets/mario/#{id}.png\""
+    errors << "#{id}: wrong path in library.js" unless library_source.include?(expected_path)
+  end
+else
+  errors << 'Missing assets/mario/library.js'
+end
+
+%w[index.html big-star-preview.html].each do |html_name|
+  html_source = File.read(File.join(ROOT, html_name))
+  errors << "#{html_name}: image library is not connected" unless html_source.include?('assets/mario/library.js')
+  errors << "#{html_name}: still contains embedded HERO_IMAGES" if html_source.include?('var HERO_IMAGES=')
+  errors << "#{html_name}: still contains embedded PNG data" if html_source.include?('data:image/png;base64,')
+end
+
+errors << 'index.html: Mario character image paths are not assigned' unless game_source.include?('character.image = marioImageFor(character.id);')
+
+big_star_source = File.read(File.join(ROOT, 'big-star-preview.html'))
+errors << 'big-star-preview.html: shared image lookup is not used' unless big_star_source.include?('function imageFor(id){return marioImageFor(id)}')
+errors << 'big-star-preview.html: fallback for unavailable images is not connected' unless big_star_source.include?('onerror="marioImageFallback(this)"')
 
 if errors.empty?
   total_bytes = characters.sum { |character| File.size(File.join(ASSET_DIR, character.fetch('file'))) }

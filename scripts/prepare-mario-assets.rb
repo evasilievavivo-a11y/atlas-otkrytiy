@@ -104,9 +104,41 @@ def wiki_page_url(title)
   "https://www.mariowiki.com/#{URI::DEFAULT_PARSER.escape(title.tr(' ', '_'))}"
 end
 
+def write_library(manifest_characters)
+  image_library = manifest_characters.to_h do |character|
+    [character.fetch('id'), "assets/mario/#{character.fetch('file')}"]
+  end
+  library_script = <<~JAVASCRIPT
+    (function (global) {
+      const images = Object.freeze(#{JSON.pretty_generate(image_library)});
+      const fallback = 'assets/mario/missing.svg';
+
+      global.MARIO_IMAGE_LIBRARY = images;
+      global.marioImageFor = function (id) {
+        return images[id] || '';
+      };
+      global.marioImageFallback = function (image) {
+        image.onerror = null;
+        image.src = fallback;
+        image.alt = image.alt ? `${image.alt}: изображение временно недоступно` : 'Изображение временно недоступно';
+        image.dataset.imageFallback = 'true';
+      };
+    })(window);
+  JAVASCRIPT
+  File.write(File.join(ASSET_DIR, 'library.js'), library_script)
+end
+
 FileUtils.mkdir_p(ASSET_DIR)
-pages = fetch_pages(CHARACTERS.map { |character| character[2] })
 force = ARGV.include?('--force')
+manifest_path = File.join(ASSET_DIR, 'manifest.json')
+if !force && File.file?(manifest_path) && CHARACTERS.all? { |character| File.file?(File.join(ASSET_DIR, "#{character[0]}.png")) }
+  manifest_characters = JSON.parse(File.read(manifest_path)).fetch('characters')
+  write_library(manifest_characters)
+  puts "Prepared #{manifest_characters.length} Mario character images in #{ASSET_DIR}"
+  exit 0
+end
+
+pages = fetch_pages(CHARACTERS.map { |character| character[2] })
 
 manifest_characters = CHARACTERS.map do |id, display, title, existing_name|
   page = pages.fetch(title) { raise "No Mario Wiki page found for #{title}" }
@@ -147,4 +179,5 @@ manifest = {
 }
 
 File.write(File.join(ASSET_DIR, 'manifest.json'), JSON.pretty_generate(manifest) + "\n")
+write_library(manifest_characters)
 puts "Prepared #{manifest_characters.length} Mario character images in #{ASSET_DIR}"
