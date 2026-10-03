@@ -26,62 +26,8 @@ jobs:
           ref: main
           path: stable
 
-:      
-
-:
-  :
-      :
-            - 
-              _:
-              
-              :
-                : 
-                  : 
-                    -: 
-                      : 
-                      
-                      :
-                        : 
-                          --: 
-                          
-                          :
-                            :
-                                -: -
-                                    :
-                                          - :   
-                                                  : /@6.                                                          :
-                                                            : 
-                                                                      : 
-                                                                      
-                                                                            - :   
-                                                                                    : /@6
-                                                                                            :
-                                                                                                      : 
-                                                                                                                : 
-                                                                                                                
-                                                                                                                      - :     
-                                                                                                                              : |
-                                                                                                                                         - /
-                                                                                                                                                    /. /--. /
-                                                                                                                                                               /. /--. //
-                                                                                                                                                               
-                                                                                                                                                                     - :  
-                                                                                                                                                                             : /-@5.                                                                                                                                                                              
-                                                                                                                                                                                  - :   
-                                                                                                                                                                                          : /--@. 
-                                                                                                                                                                                                 :
-                                                                                                                                                                                                           : ./
-                                                                                                                                                                                                           
-                                                                                                                                                                                                             :
-                                                                                                                                                                                                                 :
-                                                                                                                                                                                                                       : -
-                                                                                                                                                                                                                             : ${{ ..._ }}.                                                                                                                                                                                                                                 -: -
-                                                                                                                                                                                                                                 : 
-                                                                                                                                                                                                                                     :
-                                                                                                                                                                                                                                           - :    
-                                                                                                                                                                                                                                                   : 
-                                                                                                                                                                                                                                                           : /-@4
-                                                                                                                                                                                                                                                           uses: actions/checkout@v6
+      - name: Checkout development version
+        uses: actions/checkout@v6
         with:
           ref: development
           path: development
