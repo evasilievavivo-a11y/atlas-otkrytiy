@@ -1,0 +1,112 @@
+name: Publish stable site and development preview
+
+on:
+  push:
+    branches:
+      - development
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout stable version
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          path: stable
+
+:      
+
+:
+  :
+      :
+            - 
+              _:
+              
+              :
+                : 
+                  : 
+                    -: 
+                      : 
+                      
+                      :
+                        : 
+                          --: 
+                          
+                          :
+                            :
+                                -: -
+                                    :
+                                          - :   
+                                                  : /@6.                                                          :
+                                                            : 
+                                                                      : 
+                                                                      
+                                                                            - :   
+                                                                                    : /@6
+                                                                                            :
+                                                                                                      : 
+                                                                                                                : 
+                                                                                                                
+                                                                                                                      - :     
+                                                                                                                              : |
+                                                                                                                                         - /
+                                                                                                                                                    /. /--. /
+                                                                                                                                                               /. /--. //
+                                                                                                                                                               
+                                                                                                                                                                     - :  
+                                                                                                                                                                             : /-@5.                                                                                                                                                                              
+                                                                                                                                                                                  - :   
+                                                                                                                                                                                          : /--@. 
+                                                                                                                                                                                                 :
+                                                                                                                                                                                                           : ./
+                                                                                                                                                                                                           
+                                                                                                                                                                                                             :
+                                                                                                                                                                                                                 :
+                                                                                                                                                                                                                       : -
+                                                                                                                                                                                                                             : ${{ ..._ }}.                                                                                                                                                                                                                                 -: -
+                                                                                                                                                                                                                                 : 
+                                                                                                                                                                                                                                     :
+                                                                                                                                                                                                                                           - :    
+                                                                                                                                                                                                                                                   : 
+                                                                                                                                                                                                                                                           : /-@4
+                                                                                                                                                                                                                                                           uses: actions/checkout@v6
+        with:
+          ref: development
+          path: development
+
+      - name: Assemble stable site and preview
+        run: |
+          mkdir -p public/development
+          cp stable/index.html stable/big-star-preview.html public/
+          cp development/index.html development/big-star-preview.html public/development/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./public
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
