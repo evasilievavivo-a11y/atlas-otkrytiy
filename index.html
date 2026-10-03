@@ -83,6 +83,23 @@ h1, h2, h3, p { margin-top: 0; }
 .mario-home-button small { color:#9a6c60; font-size:10px; }
 .mario-home-progress { display:grid; place-items:center; min-width:52px; height:34px; border-radius:18px; color:white; background:#bd4c36; font-size:11px; font-weight:850; }
 .resume-mario { width:100%; margin-top:7px; border:0; border-radius:11px; padding:9px; color:#843522; background:transparent; font-size:10px; font-weight:800; cursor:pointer; }
+.game-hub { min-height:calc(100vh - 180px); display:grid; align-content:center; gap:30px; }
+.hub-intro { max-width:760px; }
+.hub-intro h1 { margin:12px 0 16px; font:700 clamp(46px,6.5vw,78px)/.95 Georgia,serif; letter-spacing:-.05em; }
+.hub-intro h1 em { color:var(--green); font-weight:400; }
+.hub-intro p { max-width:650px; margin:0; color:var(--muted); font-size:17px; line-height:1.55; }
+.mode-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+.mode-card { min-height:235px; display:flex; flex-direction:column; align-items:flex-start; border:1px solid var(--line); border-radius:24px; padding:24px; color:var(--ink); background:var(--paper); box-shadow:var(--shadow); text-align:left; text-decoration:none; cursor:pointer; transition:transform .18s,border-color .18s,box-shadow .18s; }
+.mode-card:hover,.mode-card:focus-visible { transform:translateY(-4px); border-color:rgba(35,124,102,.38); box-shadow:0 28px 75px rgba(34,61,54,.17); }
+.mode-card-icon { display:grid; place-items:center; width:58px; height:58px; margin-bottom:21px; border-radius:18px; background:var(--mint); font-size:31px; }
+.mode-card h2 { margin:0 0 9px; font:700 25px/1.05 Georgia,serif; }
+.mode-card p { margin:0 0 21px; color:var(--muted); font-size:12px; line-height:1.5; }
+.mode-card-meta { margin-top:auto; padding:8px 11px; border-radius:20px; color:var(--green); background:var(--mint); font-size:9px; font-weight:850; letter-spacing:.06em; text-transform:uppercase; }
+.mode-card.mario { background:linear-gradient(145deg,#fffdf8,#fff1e7); }
+.mode-card.mario .mode-card-icon,.mode-card.mario .mode-card-meta { color:#8d3d2b; background:#f8dfd1; }
+.mode-card.star { background:linear-gradient(145deg,#fffdf8,#fff5cf); }
+.mode-card.star .mode-card-icon,.mode-card.star .mode-card-meta { color:#8b6514; background:#f7e4a7; }
+.hub-back { margin-bottom:20px; }
 .game-shell { max-width: 1180px; margin: 0 auto; }
 .game-topbar { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-bottom: 19px; }
 .game-title { display: flex; align-items: center; gap: 13px; }
@@ -267,6 +284,8 @@ dialog p { color: var(--muted); font-size: 12px; line-height: 1.6; }
   .home-grid { grid-template-columns: 1fr; }
   .home-copy { text-align: center; }
   .home-copy > p { margin-left:auto; margin-right:auto; }
+  .mode-grid { grid-template-columns:1fr; }
+  .mode-card { min-height:170px; }
   .mario-lobby { grid-template-columns:1fr; padding-top:20px; }
   .mario-lobby-copy { text-align:center; }
   .mario-lobby-copy > p, .mario-lobby-actions { margin-left:auto; margin-right:auto; }
@@ -310,6 +329,13 @@ dialog p { color: var(--muted); font-size: 12px; line-height: 1.6; }
   .home-grid { gap: 28px; }
   .home-copy h1 { font-size: clamp(47px,15vw,67px); }
   .home-copy > p { font-size: 15px; }
+  .game-hub { gap:22px; }
+  .hub-intro { text-align:center; }
+  .hub-intro h1 { font-size:47px; }
+  .hub-intro p { font-size:14px; }
+  .mode-card { min-height:155px; padding:19px; }
+  .mode-card-icon { width:48px; height:48px; margin-bottom:15px; font-size:26px; }
+  .mode-card h2 { font-size:22px; }
   .continent-grid { grid-template-columns: 1fr; }
   .game-topbar { align-items: flex-start; }
   .game-title-emoji { display:none; }
@@ -806,6 +832,17 @@ function saveMarioProfile(profile) {
   localStorage.setItem(MARIO_PROFILE_KEY, JSON.stringify(profile));
 }
 
+function bigStarProfile() {
+  try {
+    return {
+      discovered: [], ratings: {}, rounds: 0,
+      ...JSON.parse(localStorage.getItem('atlas-big-star-v1') || '{}'),
+    };
+  } catch {
+    return { discovered: [], ratings: {}, rounds: 0 };
+  }
+}
+
 function storedMarioRound() {
   try {
     const stored = JSON.parse(localStorage.getItem(MARIO_ROUND_KEY));
@@ -858,6 +895,35 @@ function renderHome() {
   const previous = storedRound();
   const previousMario = storedMarioRound();
   const profile = marioProfile();
+  const starProfile = bigStarProfile();
+  const atlasMeta = previous
+    ? `${continent(previous.continent).names.ru} · ${previous.guessed.length}/${regionEntities(previous.continent).length}`
+    : '6 карт континентов';
+  const marioMeta = previousMario && previousMario.status !== 'finished'
+    ? `Продолжить · ${previousMario.index + 1}/${previousMario.deck.length}`
+    : `${profile.discovered.length}/60 в коллекции`;
+  const starMeta = starProfile.rounds
+    ? `Пройдено приключений: ${starProfile.rounds}`
+    : '8 заданий и финальный босс';
+
+  app.innerHTML = `<section class="game-hub">
+    <div class="hub-intro"><span class="eyebrow">Три игры в одном месте</span><h1>Выберите<br><em>приключение</em></h1><p>Можно исследовать страны, угадывать персонажей или отправиться по дороге к Большой звезде.</p></div>
+    <div class="mode-grid">
+      <button class="mode-card atlas" id="atlas-mode" type="button"><span class="mode-card-icon">🧭</span><h2>Атлас открытий</h2><p>Называйте страны, открывайте их на карте и узнавайте короткие факты.</p><span class="mode-card-meta">${esc(atlasMeta)}</span></button>
+      <button class="mode-card mario" id="mario-mode" type="button"><span class="mode-card-icon">🍄</span><h2>Угадай персонажа</h2><p>15 загадок, три подсказки и коллекция из 60 персонажей Mario.</p><span class="mode-card-meta">${esc(marioMeta)}</span></button>
+      <a class="mode-card star" href="big-star-preview.html"><span class="mode-card-icon">⭐</span><h2>Большая звезда</h2><p>Выберите героя, пройдите маршрут с разными заданиями и победите финального босса.</p><span class="mode-card-meta">${esc(starMeta)}</span></a>
+    </div>
+  </section>`;
+
+  document.querySelector('#atlas-mode').addEventListener('click', renderAtlasLobby);
+  document.querySelector('#mario-mode').addEventListener('click', renderMarioLobby);
+  setBrowserAddress();
+}
+
+function renderAtlasLobby() {
+  activeMode = 'atlas';
+  round = null;
+  const previous = storedRound();
   const resume = previous && previous.status !== 'revealed' ? `
     <div class="resume-card"><span>Продолжить: <strong>${esc(continent(previous.continent).names.ru)}</strong> · ${previous.guessed.length}/${regionEntities(previous.continent).length}</span><button id="resume-button" type="button">Продолжить</button></div>` : '';
   const buttons = data.continents.map(item => `
@@ -868,8 +934,9 @@ function renderHome() {
 
   app.innerHTML = `<section class="home-grid">
     <div class="home-copy">
+      <button class="back-button hub-back" id="atlas-lobby-back" type="button" aria-label="К выбору игр">←</button>
       <span class="eyebrow">Исследуем мир вместе</span>
-      <h1>Вспомни.<br><em>Найди.</em><br>Открой.</h1>
+      <h1>Атлас<br><em>открытий</em></h1>
       <p>Называйте страны всей командой. Каждая верная страна проявится на карте — и постепенно пустой континент станет знакомым.</p>
       <div class="team-rule"><b>3</b><span>Можно играть втроём на одном общем экране</span></div>
     </div>
@@ -877,17 +944,10 @@ function renderHome() {
       ${resume}
       <div class="world-card-head"><div><span class="eyebrow">Мир и Земля</span><h2>Страны мира</h2><p>Выберите карту для экспедиции</p></div><span class="mode-tag">Вспомни всё</span></div>
       <div class="continent-grid">${buttons}</div>
-      <div class="other-worlds-title">Другие миры</div>
-      <button class="mario-home-button" id="mario-home-button" type="button">
-        <span class="mario-home-icon">🍄</span>
-        <span><strong>Тайна мира Mario</strong><small>60 героев · загадки и коллекция</small></span>
-        <span class="mario-home-progress">${profile.discovered.length}/60</span>
-      </button>
-      ${previousMario && previousMario.status !== 'finished' ? '<button class="resume-mario" id="resume-mario" type="button">Продолжить начатый раунд Mario</button>' : ''}
-      <div class="future-worlds"><span>⚡ Pokémon · позже</span><span>🔬 Живое · позже</span><span>🚀 Как всё устроено · позже</span></div>
     </article>
   </section>`;
 
+  document.querySelector('#atlas-lobby-back').addEventListener('click', renderHome);
   document.querySelectorAll('[data-continent]').forEach(button => {
     button.addEventListener('click', () => startRound(button.dataset.continent));
   });
@@ -895,12 +955,7 @@ function renderHome() {
     round = previous;
     renderGame();
   });
-  document.querySelector('#mario-home-button').addEventListener('click', renderMarioLobby);
-  document.querySelector('#resume-mario')?.addEventListener('click', () => {
-    marioRound = previousMario;
-    renderMarioGame();
-  });
-  setBrowserAddress();
+  setBrowserAddress('?game=atlas');
 }
 
 function startRound(continentId) {
@@ -1146,6 +1201,7 @@ function errorDots() {
 }
 
 function renderGame() {
+  activeMode = 'atlas';
   const currentContinent = continent(round.continent);
   const countries = regionEntities(round.continent);
   const guessed = round.guessed.map(id => entityById.get(id)).filter(Boolean);
@@ -1194,7 +1250,7 @@ function renderGame() {
   document.querySelector('#finish-button')?.addEventListener('click', finishRound);
   document.querySelector('#reveal-button')?.addEventListener('click', revealMissing);
   document.querySelector('#restart-button')?.addEventListener('click', () => startRound(round.continent));
-  document.querySelector('#new-map-button')?.addEventListener('click', renderHome);
+  document.querySelector('#new-map-button')?.addEventListener('click', renderAtlasLobby);
   const dialog = document.querySelector('#method-dialog');
   document.querySelector('#method-button').addEventListener('click', () => dialog.showModal());
   document.querySelector('#close-method').addEventListener('click', () => dialog.close());
@@ -1269,7 +1325,7 @@ function revealMissing() {
 
 function confirmHome() {
   if (round?.status === 'playing' && !confirm('Вернуться к выбору карты? Результат можно будет продолжить.')) return;
-  renderHome();
+  renderAtlasLobby();
 }
 
 function adjustedLon(lon, view) {
@@ -1394,6 +1450,8 @@ async function init() {
     if (requestedGame === 'mario') {
       marioRound = storedMarioRound();
       if (marioRound && marioRound.status !== 'finished') renderMarioGame(); else renderMarioLobby();
+    } else if (requestedGame === 'atlas') {
+      renderAtlasLobby();
     } else if (stored && requested === stored.continent) {
       round = stored;
       renderGame();
