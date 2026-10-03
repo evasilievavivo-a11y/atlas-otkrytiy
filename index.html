@@ -793,9 +793,19 @@ const APP_BASE_PATH = (location.protocol === 'http:' || location.protocol === 'h
   : '/';
 
 function setBrowserAddress(search = '') {
+  // htmlpreview.github.io adds a cross-origin <base> element while rendering
+  // GitHub files. Changing the address there would throw and stop the game.
+  if (location.hostname === 'htmlpreview.github.io') return;
   if (location.protocol === 'http:' || location.protocol === 'https:') {
     history.replaceState({}, '', `${APP_BASE_PATH}${search}`);
   }
+}
+
+function gameFileHref(fileName) {
+  if (location.hostname === 'htmlpreview.github.io') {
+    return `${location.origin}/?https://github.com/evasilievavivo-a11y/atlas-otkrytiy/blob/development/${fileName}`;
+  }
+  return fileName;
 }
 
 const esc = value => String(value ?? '')
@@ -911,7 +921,7 @@ function renderHome() {
     <div class="mode-grid">
       <button class="mode-card atlas" id="atlas-mode" type="button"><span class="mode-card-icon">🧭</span><h2>Атлас открытий</h2><p>Называйте страны, открывайте их на карте и узнавайте короткие факты.</p><span class="mode-card-meta">${esc(atlasMeta)}</span></button>
       <button class="mode-card mario" id="mario-mode" type="button"><span class="mode-card-icon">🍄</span><h2>Угадай персонажа</h2><p>15 загадок, три подсказки и коллекция из 60 персонажей Mario.</p><span class="mode-card-meta">${esc(marioMeta)}</span></button>
-      <a class="mode-card star" href="big-star-preview.html"><span class="mode-card-icon">⭐</span><h2>Большая звезда</h2><p>Выберите героя, пройдите маршрут с разными заданиями и победите финального босса.</p><span class="mode-card-meta">${esc(starMeta)}</span></a>
+      <a class="mode-card star" href="${esc(gameFileHref('big-star-preview.html'))}"><span class="mode-card-icon">⭐</span><h2>Большая звезда</h2><p>Выберите героя, пройдите маршрут с разными заданиями и победите финального босса.</p><span class="mode-card-meta">${esc(starMeta)}</span></a>
     </div>
   </section>`;
 
