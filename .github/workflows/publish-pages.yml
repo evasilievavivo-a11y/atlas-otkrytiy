@@ -35,9 +35,10 @@ jobs:
 
       - name: Assemble stable site and preview
         run: |
-          mkdir -p public/development
+          mkdir -p public/development/assets
           cp stable/index.html stable/big-star-preview.html public/
           cp development/index.html development/big-star-preview.html public/development/
+          cp -R development/assets/mario public/development/assets/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

@@ -103,6 +103,11 @@ big_star_source = File.read(File.join(ROOT, 'big-star-preview.html'))
 errors << 'big-star-preview.html: shared image lookup is not used' unless big_star_source.include?('function imageFor(id){return marioImageFor(id)}')
 errors << 'big-star-preview.html: fallback for unavailable images is not connected' unless big_star_source.include?('onerror="marioImageFallback(this)"')
 
+pages_workflow = File.read(File.join(ROOT, '.github', 'workflows', 'publish-pages.yml'))
+unless pages_workflow.include?('cp -R development/assets/mario public/development/assets/')
+  errors << 'publish-pages.yml: development preview does not include Mario image assets'
+end
+
 if errors.empty?
   total_bytes = characters.sum { |character| File.size(File.join(ASSET_DIR, character.fetch('file'))) }
   puts "OK: 60 unique PNG images, #{(total_bytes / 1_048_576.0).round(2)} MiB total"
